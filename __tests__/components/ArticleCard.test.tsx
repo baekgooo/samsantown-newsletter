@@ -23,7 +23,7 @@ describe('ArticleCard', () => {
   it('자세히 보기 링크가 올바른 href를 가진다', () => {
     render(<ArticleCard {...mockArticle} />)
     const link = screen.getByRole('link', { name: /자세히 보기/i })
-    expect(link).toHaveAttribute('href', '/articles/%EB%B3%80%EC%95%95%EA%B8%B0-%EA%B3%B5%EC%82%AC%EC%A7%80%EC%97%B0')
+    expect(link).toHaveAttribute('href', '/articles/변압기-공사지연')
   })
 
   it('발행일을 한국어 형식으로 렌더링한다', () => {

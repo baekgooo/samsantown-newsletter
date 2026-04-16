@@ -23,7 +23,7 @@ export default function ArticleCard({ slug, title, summary, published_at }: Prop
       <h2 className="text-[16px] font-bold text-[#111] leading-snug mb-1.5">{title}</h2>
       <p className="text-[13px] text-[#666] leading-relaxed mb-2.5 line-clamp-2">{summary}</p>
       <Link
-        href={`/articles/${encodeURIComponent(slug)}`}
+        href={`/articles/${slug}`}
         className="text-[13px] font-semibold text-[#FF6200]"
       >
         자세히 보기 →
