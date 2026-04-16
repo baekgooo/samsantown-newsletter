@@ -7,9 +7,20 @@ const config: Config = {
   coverageProvider: 'v8',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  transformIgnorePatterns: [
-    '/node_modules/(?!(react-markdown|remark-gfm|remark-parse|remark-rehype|rehype-react|unified|bail|is-plain-obj|trough|vfile|vfile-message|unist-util-stringify-position|mdast-util-.*|micromark.*|decode-named-character-reference|character-entities|property-information|hast-util-.*|space-separated-tokens|comma-separated-tokens|trim-lines|devlop)/)',
-  ],
 }
 
-export default createJestConfig(config)
+// Wrap createJestConfig to override transformIgnorePatterns after next/jest sets them
+async function jestConfig() {
+  const nextJestConfig = await createJestConfig(config)()
+  return {
+    ...nextJestConfig,
+    transformIgnorePatterns: [
+      // Allow all ESM packages used by react-markdown (including nested node_modules)
+      'node_modules/(?!.pnpm)(?!(react-markdown|remark-gfm|remark-parse|remark-rehype|remark-stringify|rehype-react|unified|bail|is-plain-obj|trough|vfile|vfile-message|unist-util-.*|mdast-util-.*|micromark.*|decode-named-character-reference|character-entities|character-entities-legacy|character-entities-html4|character-reference-invalid|property-information|hast-util-.*|space-separated-tokens|comma-separated-tokens|trim-lines|devlop|estree-util-.*|html-url-attributes|html-void-elements|longest-streak|markdown-table|zwitch|ccount|parse-entities|is-alphanumerical|is-alphabetical|is-decimal|is-hexadecimal|stringify-entities|escape-string-regexp)/)',
+      // Handle escape-string-regexp nested inside mdast-util-find-and-replace
+      'node_modules/mdast-util-find-and-replace/node_modules/(?!(escape-string-regexp)/)',
+    ],
+  }
+}
+
+export default jestConfig
