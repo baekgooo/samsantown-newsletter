@@ -41,3 +41,64 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
   if (error) return null
   return data
 }
+
+export async function getAllArticles(): Promise<Article[]> {
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .order('created_at', { ascending: false })
+
+  if (error) throw new Error(error.message)
+  return data ?? []
+}
+
+export async function getArticleById(id: string): Promise<Article | null> {
+  const { data, error } = await supabase
+    .from('articles')
+    .select('*')
+    .eq('id', id)
+    .single()
+
+  if (error) return null
+  return data
+}
+
+export async function createArticle(data: {
+  slug: string
+  title: string
+  summary: string
+  content: string
+  category: string
+  is_published: boolean
+}): Promise<Article> {
+  const { data: article, error } = await supabase
+    .from('articles')
+    .insert(data)
+    .select()
+    .single()
+
+  if (error) throw new Error(error.message)
+  return article
+}
+
+export async function updateArticle(
+  id: string,
+  data: Partial<{
+    slug: string
+    title: string
+    summary: string
+    content: string
+    category: string
+    is_published: boolean
+  }>
+): Promise<Article> {
+  const { data: article, error } = await supabase
+    .from('articles')
+    .update(data)
+    .eq('id', id)
+    .select()
+    .single()
+
+  if (error) throw new Error(error.message)
+  return article
+}
