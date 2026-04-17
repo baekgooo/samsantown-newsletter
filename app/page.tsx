@@ -2,6 +2,7 @@ import { getPublishedArticles } from '@/lib/supabase'
 import Header from '@/components/Header'
 import ArticleCard from '@/components/ArticleCard'
 import IssueReportButton from '@/components/IssueReportButton'
+import Footer from '@/components/Footer'
 
 export const revalidate = 60
 
@@ -28,9 +29,7 @@ export default async function HomePage() {
         )}
       </section>
       <IssueReportButton />
-      <footer className="px-5 py-4 text-center text-[11px] text-[#ccc]">
-        삼산타운1차 입주민 소식지 · 비공식
-      </footer>
+      <Footer />
     </main>
   )
 }

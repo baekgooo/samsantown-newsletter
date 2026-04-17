@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { getArticleBySlug, getPublishedArticles } from '@/lib/supabase'
 import ArticleContent from '@/components/ArticleContent'
 import IssueReportButton from '@/components/IssueReportButton'
+import Footer from '@/components/Footer'
 import ViewTracker from '@/components/ViewTracker'
 
 export const revalidate = 60
@@ -49,9 +50,7 @@ export default async function ArticlePage({ params }: Props) {
       </div>
       <ArticleContent content={article.content} />
       <IssueReportButton />
-      <footer className="px-5 py-4 text-center text-[11px] text-[#ccc]">
-        삼산타운1차 입주민 소식지 · 비공식
-      </footer>
+      <Footer />
       <ViewTracker slug={slug} />
     </main>
   )

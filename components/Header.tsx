@@ -12,7 +12,11 @@ export default function Header() {
         className="h-[72px] w-auto"
         style={{ mixBlendMode: 'multiply' }}
       />
-      <p className="mt-1.5 text-[12px] text-[#888]">입주민이 알아야 할 우리 단지 이야기</p>
+      <p className="mt-3 text-[13px] text-[#555] leading-relaxed">
+        우리가 살고있는 아파트에 지금 어떤 일들이 있을까요?<br />
+        주요 이슈들을 알기 쉽게 설명해드릴게요.<br />
+        <span className="text-[12px] text-[#888]">비정기적으로 새로운 이야기가 상시 업데이트됩니다 😊</span>
+      </p>
     </header>
   )
 }
