@@ -48,6 +48,12 @@ export default async function ArticlePage({ params }: Props) {
           )}
         </p>
       </div>
+      {article.summary && (
+        <div className="px-5 pt-4 pb-2">
+          <p className="text-[14px] text-[#555] leading-relaxed">{article.summary}</p>
+          <hr className="mt-4 border-[#ebebeb]" />
+        </div>
+      )}
       <ArticleContent content={article.content} />
       <IssueReportButton />
       <Footer />

@@ -1,8 +1,10 @@
 import Image from 'next/image'
+import InfoButton from './InfoButton'
 
 export default function Header() {
   return (
-    <header className="px-5 py-4 pb-3.5 border-b border-[#ebebeb] flex flex-col items-center text-center">
+    <header className="relative px-5 py-4 pb-3.5 border-b border-[#ebebeb] flex flex-col items-center text-center">
+      <InfoButton />
       <Image
         src="/logo.png"
         alt="삼산타운1단지 소식지"
