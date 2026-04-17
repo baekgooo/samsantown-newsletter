@@ -9,7 +9,7 @@ export const revalidate = 60
 
 export async function generateStaticParams() {
   const articles = await getPublishedArticles()
-  return articles.map((a) => ({ slug: encodeURIComponent(a.slug) }))
+  return articles.map((a) => ({ slug: a.slug }))
 }
 
 function formatDate(isoString: string | null): string {
