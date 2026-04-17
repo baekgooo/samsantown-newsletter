@@ -34,7 +34,7 @@ export default async function ArticlePage({ params }: Props) {
   const formUrl = process.env.GOOGLE_FORM_URL ?? ''
 
   return (
-    <main>
+    <main className="max-w-[480px] mx-auto">
       <div className="px-5 pt-4 pb-2">
         <Link href="/" className="text-[13px] text-[#888]">← 목록으로</Link>
       </div>

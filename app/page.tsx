@@ -10,7 +10,7 @@ export default async function HomePage() {
   const formUrl = process.env.GOOGLE_FORM_URL ?? ''
 
   return (
-    <main>
+    <main className="max-w-[480px] mx-auto">
       <Header />
       <section>
         {articles.map((article) => (

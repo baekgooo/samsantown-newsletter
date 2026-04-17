@@ -16,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ko">
       <body className={`${notoSansKR.className} bg-white`}>
-        <div className="max-w-[480px] mx-auto min-h-screen">
+        <div className="min-h-screen">
           {children}
         </div>
       </body>
