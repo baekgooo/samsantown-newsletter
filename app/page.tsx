@@ -7,8 +7,6 @@ export const revalidate = 60
 
 export default async function HomePage() {
   const articles = await getPublishedArticles()
-  const formUrl = process.env.GOOGLE_FORM_URL ?? ''
-
   return (
     <main className="max-w-[480px] mx-auto">
       <Header />
@@ -29,7 +27,7 @@ export default async function HomePage() {
           </p>
         )}
       </section>
-      <IssueReportButton formUrl={formUrl} />
+      <IssueReportButton />
       <footer className="px-5 py-4 text-center text-[11px] text-[#ccc]">
         삼산타운1차 입주민 소식지 · 비공식
       </footer>

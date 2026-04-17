@@ -102,3 +102,38 @@ export async function updateArticle(
   if (error) throw new Error(error.message)
   return article
 }
+
+export interface Report {
+  id: string
+  name: string | null
+  contact: string | null
+  content: string
+  is_read: boolean
+  created_at: string
+}
+
+export async function submitReport(data: {
+  name?: string
+  contact?: string
+  content: string
+}): Promise<void> {
+  const { error } = await supabase.from('reports').insert(data)
+  if (error) throw new Error(error.message)
+}
+
+export async function getReports(): Promise<Report[]> {
+  const { data, error } = await supabase
+    .from('reports')
+    .select('*')
+    .order('created_at', { ascending: false })
+  if (error) throw new Error(error.message)
+  return data ?? []
+}
+
+export async function markReportRead(id: string): Promise<void> {
+  const { error } = await supabase
+    .from('reports')
+    .update({ is_read: true })
+    .eq('id', id)
+  if (error) throw new Error(error.message)
+}

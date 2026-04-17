@@ -37,6 +37,10 @@ export default function AdminPage() {
       <div className="flex flex-wrap justify-between items-center gap-3 mb-6">
         <h1 className="text-xl font-bold text-[#111]">기사 관리</h1>
         <div className="flex gap-2">
+          <Link href="/admin/reports"
+            className="px-3 py-2 border border-[#ddd] text-sm text-[#444] rounded-lg">
+            📬 제보
+          </Link>
           <Link href="/admin/articles/new"
             className="px-3 py-2 bg-[#FF6200] text-white text-sm font-bold rounded-lg">
             + 새 기사

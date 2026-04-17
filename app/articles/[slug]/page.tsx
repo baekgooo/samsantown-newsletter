@@ -31,8 +31,6 @@ export default async function ArticlePage({ params }: Props) {
 
   if (!article) notFound()
 
-  const formUrl = process.env.GOOGLE_FORM_URL ?? ''
-
   return (
     <main className="max-w-[480px] mx-auto">
       <div className="px-5 pt-4 pb-2">
@@ -50,7 +48,7 @@ export default async function ArticlePage({ params }: Props) {
         </p>
       </div>
       <ArticleContent content={article.content} />
-      <IssueReportButton formUrl={formUrl} />
+      <IssueReportButton />
       <footer className="px-5 py-4 text-center text-[11px] text-[#ccc]">
         삼산타운1차 입주민 소식지 · 비공식
       </footer>
