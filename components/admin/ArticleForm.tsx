@@ -10,25 +10,19 @@ interface Props {
   article?: Article
 }
 
-function generateSlug(title: string): string {
-  return title.trim().replace(/\s+/g, '-').replace(/[^\w가-힣ㄱ-ㅎㅏ-ㅣ-]/g, '')
+function generateSlug(): string {
+  return Date.now().toString(36) + Math.random().toString(36).slice(2, 5)
 }
 
 export default function ArticleForm({ article }: Props) {
   const router = useRouter()
   const [title, setTitle] = useState(article?.title ?? '')
-  const [slug, setSlug] = useState(article?.slug ?? '')
+  const [slug] = useState(article?.slug ?? generateSlug())
   const [summary, setSummary] = useState(article?.summary ?? '')
   const [category, setCategory] = useState(article?.category ?? '')
   const [content, setContent] = useState(article?.content ?? '')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const [showSlug, setShowSlug] = useState(false)
-
-  function handleTitleChange(value: string) {
-    setTitle(value)
-    if (!article) setSlug(generateSlug(value))
-  }
 
   async function handleSubmit(isPublished: boolean) {
     setLoading(true)
@@ -61,21 +55,8 @@ export default function ArticleForm({ article }: Props) {
       <div className="space-y-4">
         <div>
           <label className="block text-sm font-medium text-[#444] mb-1">제목</label>
-          <input value={title} onChange={(e) => handleTitleChange(e.target.value)}
+          <input value={title} onChange={(e) => setTitle(e.target.value)}
             className={inputClass} placeholder="기사 제목" required />
-          {slug && (
-            <div className="mt-1 flex items-center gap-2">
-              <span className="text-xs text-[#aaa]">URL: /articles/{slug}</span>
-              <button type="button" onClick={() => setShowSlug(!showSlug)}
-                className="text-xs text-[#FF6200] hover:underline">
-                {showSlug ? '닫기' : '수정'}
-              </button>
-            </div>
-          )}
-          {showSlug && (
-            <input value={slug} onChange={(e) => setSlug(e.target.value)}
-              className={`${inputClass} font-mono mt-2`} placeholder="url-slug" />
-          )}
         </div>
 
         <div>
