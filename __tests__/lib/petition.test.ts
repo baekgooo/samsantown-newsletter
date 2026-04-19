@@ -19,6 +19,10 @@ describe('validateApplicant', () => {
   it('이름이 비어있으면 false를 반환한다', () => {
     expect(validateApplicant({ unit: '104-506', name: '', phone: '010-1234-5678' })).toBe(false)
   })
+
+  it('공백만 있는 이름은 false를 반환한다', () => {
+    expect(validateApplicant({ unit: '104-506', name: '   ', phone: '010-1234-5678' })).toBe(false)
+  })
 })
 
 describe('isRateLimited', () => {

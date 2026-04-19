@@ -34,19 +34,20 @@ export interface CreatePetitionInput {
 
 export function validateApplicant(applicant: Applicant): boolean {
   if (!applicant.name.trim()) return false
-  if (!/^\d{2,4}-\d{1,4}$/.test(applicant.unit)) return false
+  if (!/^\d{3,4}-\d{3,4}$/.test(applicant.unit)) return false
   if (!/^010-\d{4}-\d{4}$/.test(applicant.phone)) return false
   return true
 }
 
 export async function isRateLimited(ip: string, client: SupabaseClient): Promise<boolean> {
   const oneMinuteAgo = new Date(Date.now() - 60000).toISOString()
-  const { data } = await client
+  const { data, error } = await client
     .from('petitions')
     .select('id')
     .eq('ip_address', ip)
     .gte('created_at', oneMinuteAgo)
     .limit(1)
+  if (error) throw new Error(error.message)
   return Array.isArray(data) && data.length > 0
 }
 
