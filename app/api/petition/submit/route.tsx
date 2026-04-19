@@ -17,6 +17,9 @@ export async function POST(req: NextRequest) {
   if (!form_type || !petition_date || !meeting_date || !meeting_time) {
     return NextResponse.json({ error: '필수 항목이 누락됐어요.' }, { status: 400 })
   }
+  if (form_type !== 'election' && form_type !== 'board') {
+    return NextResponse.json({ error: '올바르지 않은 양식 유형이에요.' }, { status: 400 })
+  }
   if (!Array.isArray(applicants) || applicants.length === 0) {
     return NextResponse.json({ error: '신청자를 1명 이상 입력해주세요.' }, { status: 400 })
   }
