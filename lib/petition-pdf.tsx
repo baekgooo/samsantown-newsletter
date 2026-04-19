@@ -5,6 +5,7 @@ const DAYS = ['일', '월', '화', '수', '목', '금', '토']
 
 function formatDate(dateStr: string) {
   const d = new Date(dateStr)
+  if (isNaN(d.getTime())) return { year: '', month: '', day: '', dayOfWeek: '' }
   return {
     year: d.getFullYear(),
     month: d.getMonth() + 1,
@@ -19,6 +20,7 @@ const styles = StyleSheet.create({
   row: { flexDirection: 'row', marginBottom: 8 },
   label: { width: 140 },
   value: { flex: 1 },
+  sectionLabel: { marginBottom: 4 },
   table: { marginTop: 12, border: '1pt solid #000' },
   tableHeader: { flexDirection: 'row', backgroundColor: '#f0f0f0', borderBottom: '1pt solid #000' },
   tableRow: { flexDirection: 'row', borderBottom: '0.5pt solid #ccc' },
@@ -63,7 +65,7 @@ export function PetitionDocument({ formType, petitionDate, meetingDate, meetingT
           <Text style={styles.label}>3. 회의 개최 일자 :</Text>
           <Text style={styles.value}>{md.year}년 {md.month}월 {md.day}일 {md.dayOfWeek}요일 {meetingTime}</Text>
         </View>
-        <Text style={{ marginBottom: 4 }}>4. 신　청　자</Text>
+        <Text style={styles.sectionLabel}>4. 신　청　자</Text>
 
         <View style={styles.table}>
           <View style={styles.tableHeader}>
