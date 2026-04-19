@@ -16,6 +16,7 @@ export async function sendTelegramAlert(message: string): Promise<void> {
 
 export function buildFailureAlert(formType: 'election' | 'board', applicants: Array<{ name: string; unit: string }>): string {
   const typeLabel = formType === 'election' ? '선관위' : '입대위'
+  if (!applicants.length) return `📋 방청신청 이메일 발송 실패 - ${typeLabel} / (신청자 정보 없음)`
   const first = applicants[0]
   const extra = applicants.length > 1 ? ` 외 ${applicants.length - 1}명` : ''
   return `📋 방청신청 이메일 발송 실패 - ${typeLabel} / ${first.name}${extra} (${first.unit})`
