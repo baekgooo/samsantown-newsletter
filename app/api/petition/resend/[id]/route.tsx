@@ -37,6 +37,8 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ success: true })
   } catch (err) {
     const errorMsg = err instanceof Error ? err.message : 'unknown'
+    await updatePetitionEmailStatus(params.id, { email_sent: false, email_error: errorMsg }, serviceClient)
+      .catch(() => {})
     return NextResponse.json({ error: errorMsg }, { status: 500 })
   }
 }
