@@ -2,6 +2,9 @@ import nodemailer from 'nodemailer'
 import type { Applicant, FormType } from './petition'
 
 function createTransport() {
+  if (!process.env.GMAIL_USER || !process.env.GMAIL_APP_PASSWORD) {
+    throw new Error('Missing email configuration: GMAIL_USER or GMAIL_APP_PASSWORD not set')
+  }
   return nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -11,8 +14,12 @@ function createTransport() {
   })
 }
 
+function getTypeLabel(formType: FormType): string {
+  return formType === 'election' ? '선관위' : '입대위'
+}
+
 function buildManagementSubject(formType: FormType, petitionDate: string, applicants: Applicant[]): string {
-  const typeLabel = formType === 'election' ? '선관위' : '입대위'
+  const typeLabel = getTypeLabel(formType)
   const first = applicants[0]
   const extra = applicants.length > 1 ? ` 외 ${applicants.length - 1}명` : ''
   return `[방청신청] ${typeLabel} 방청신청서 접수 - ${first.name}${extra} (${petitionDate})`
@@ -25,7 +32,7 @@ export async function sendManagementEmail(params: {
   pdfBuffer: Buffer
 }): Promise<void> {
   const { formType, petitionDate, applicants, pdfBuffer } = params
-  const typeLabel = formType === 'election' ? '선관위' : '입대위'
+  const typeLabel = getTypeLabel(formType)
   const transport = createTransport()
 
   await transport.sendMail({
