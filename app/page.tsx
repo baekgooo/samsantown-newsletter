@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getPublishedArticles } from '@/lib/supabase'
 import Header from '@/components/Header'
 import ArticleCard from '@/components/ArticleCard'
@@ -30,6 +31,11 @@ export default async function HomePage() {
       </section>
       <IssueReportButton />
       <Footer />
+      <div className="flex justify-end px-4 pb-4">
+        <Link href="/petition" className="text-[10px] text-[#ddd] hover:text-[#bbb]">
+          test
+        </Link>
+      </div>
     </main>
   )
 }
