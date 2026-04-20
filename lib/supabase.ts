@@ -70,10 +70,15 @@ export async function createArticle(data: {
   content: string
   category: string
   is_published: boolean
+  published_at?: string
 }): Promise<Article> {
+  const insertData = {
+    ...data,
+    published_at: data.published_at ?? new Date().toISOString(),
+  }
   const { data: article, error } = await supabase
     .from('articles')
-    .insert(data)
+    .insert(insertData)
     .select()
     .single()
 

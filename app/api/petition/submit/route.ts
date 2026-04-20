@@ -1,8 +1,9 @@
+import React from 'react'
 import { NextRequest, NextResponse } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
 import {
   validateApplicant, isRateLimited,
-  createAnonSupabase, createServiceSupabase,
+  createServiceSupabase,
   createPetition, updatePetitionEmailStatus,
   type FormType,
 } from '@/lib/petition'
@@ -31,29 +32,27 @@ export async function POST(req: NextRequest) {
   }
 
   const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? 'unknown'
-  const anonClient = createAnonSupabase()
+  const serviceClient = createServiceSupabase()
 
-  if (await isRateLimited(ip, anonClient)) {
+  if (await isRateLimited(ip, serviceClient)) {
     return NextResponse.json({ error: '잠시 후 다시 시도해주세요.' }, { status: 429 })
   }
 
   const petition = await createPetition(
     { form_type: form_type as FormType, petition_date, meeting_date, meeting_time, applicants, email, ip_address: ip },
-    anonClient
+    serviceClient
   )
-
-  const serviceClient = createServiceSupabase()
 
   let emailSent = false
   try {
     const pdfBuffer = await renderToBuffer(
-      <PetitionDocument
-        formType={form_type}
-        petitionDate={petition_date}
-        meetingDate={meeting_date}
-        meetingTime={meeting_time}
-        applicants={applicants}
-      />
+      React.createElement(PetitionDocument, {
+        formType: form_type,
+        petitionDate: petition_date,
+        meetingDate: meeting_date,
+        meetingTime: meeting_time,
+        applicants: applicants,
+      }) as any
     )
 
     await sendManagementEmail({ formType: form_type, petitionDate: petition_date, applicants, pdfBuffer })
@@ -64,7 +63,7 @@ export async function POST(req: NextRequest) {
       try {
         await sendApplicantEmail({ to: email, pdfBuffer })
       } catch {
-        // applicant email failure is silent — management email already succeeded
+        // applicant email failure is silent
       }
     }
   } catch (err) {

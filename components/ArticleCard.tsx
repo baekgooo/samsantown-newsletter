@@ -8,7 +8,8 @@ interface Props {
   category: string
 }
 
-function formatDate(isoString: string): string {
+function formatDate(isoString: string | null | undefined): string {
+  if (!isoString) return ''
   const date = new Date(isoString)
   const y = date.getFullYear()
   const m = String(date.getMonth() + 1).padStart(2, '0')

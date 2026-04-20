@@ -1,3 +1,4 @@
+import React from 'react'
 import { NextRequest, NextResponse } from 'next/server'
 import { renderToBuffer } from '@react-pdf/renderer'
 import { createServiceSupabase, getPetitionById, updatePetitionEmailStatus } from '@/lib/petition'
@@ -19,13 +20,13 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
   try {
     const pdfBuffer = await renderToBuffer(
-      <PetitionDocument
-        formType={petition.form_type}
-        petitionDate={petition.petition_date}
-        meetingDate={petition.meeting_date}
-        meetingTime={petition.meeting_time}
-        applicants={petition.applicants}
-      />
+      React.createElement(PetitionDocument, {
+        formType: petition.form_type,
+        petitionDate: petition.petition_date,
+        meetingDate: petition.meeting_date,
+        meetingTime: petition.meeting_time,
+        applicants: petition.applicants,
+      }) as any
     )
     await sendManagementEmail({
       formType: petition.form_type,
