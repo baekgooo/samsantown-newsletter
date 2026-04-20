@@ -1,11 +1,17 @@
+import path from 'path'
 import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer'
 import type { Applicant, FormType } from './petition'
+
+const isServer = typeof window === 'undefined'
+const fontBase = isServer
+  ? path.join(process.cwd(), 'public/fonts')
+  : '/fonts'
 
 Font.register({
   family: 'NanumGothic',
   fonts: [
-    { src: 'https://fonts.gstatic.com/s/nanumgothic/v23/PN_3Rfi-oW3hYwmKDpxS7F_z_tLfxno73g.ttf' },
-    { src: 'https://fonts.gstatic.com/s/nanumgothic/v23/PN_oRfi-oW3hYwmKDpxS7F_LQv37zlEn14YEUQ.ttf', fontWeight: 'bold' },
+    { src: `${fontBase}/NanumGothic-Regular.ttf` },
+    { src: `${fontBase}/NanumGothic-Bold.ttf`, fontWeight: 'bold' },
   ],
 })
 
