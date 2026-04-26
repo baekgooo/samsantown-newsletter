@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { sendTelegramAlert } from '@/lib/telegram'
+import { sendTelegramAlert, buildReportAlert } from '@/lib/telegram'
 
 global.fetch = jest.fn()
 
@@ -27,5 +27,31 @@ describe('sendTelegramAlert', () => {
   it('fetch 실패 시 예외를 던지지 않는다 (조용히 처리)', async () => {
     ;(global.fetch as jest.Mock).mockRejectedValue(new Error('network error'))
     await expect(sendTelegramAlert('메시지')).resolves.not.toThrow()
+  })
+})
+
+describe('buildReportAlert', () => {
+  const originalEnv = process.env
+
+  beforeEach(() => {
+    process.env = { ...originalEnv }
+  })
+
+  afterEach(() => {
+    process.env = originalEnv
+  })
+
+  it('NEXT_PUBLIC_SITE_URL이 있으면 링크를 포함한다', () => {
+    process.env.NEXT_PUBLIC_SITE_URL = 'https://example.com'
+    const msg = buildReportAlert()
+    expect(msg).toContain('📬')
+    expect(msg).toContain('https://example.com/admin/reports')
+  })
+
+  it('NEXT_PUBLIC_SITE_URL이 없으면 링크 없이 반환한다', () => {
+    delete process.env.NEXT_PUBLIC_SITE_URL
+    const msg = buildReportAlert()
+    expect(msg).toContain('📬')
+    expect(msg).not.toContain('http')
   })
 })

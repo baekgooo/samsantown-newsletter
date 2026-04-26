@@ -14,6 +14,14 @@ export async function sendTelegramAlert(message: string): Promise<void> {
   }
 }
 
+export function buildReportAlert(): string {
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL
+  if (siteUrl) {
+    return `📬 새 제보가 왔어요!\n관리자 페이지에서 확인하세요:\n${siteUrl}/admin/reports`
+  }
+  return `📬 새 제보가 왔어요!\n관리자 페이지에서 확인하세요.`
+}
+
 export function buildFailureAlert(formType: 'election' | 'board', applicants: Array<{ name: string; unit: string }>): string {
   const typeLabel = formType === 'election' ? '선관위' : '입대위'
   if (!applicants.length) return `📋 방청신청 이메일 발송 실패 - ${typeLabel} / (신청자 정보 없음)`
