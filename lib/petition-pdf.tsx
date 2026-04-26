@@ -30,7 +30,7 @@ function formatDate(dateStr: string) {
 }
 
 const B = '1pt solid #000'
-const T = '0.5pt solid #666'
+
 
 const s = StyleSheet.create({
   page: {

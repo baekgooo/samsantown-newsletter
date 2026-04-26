@@ -26,7 +26,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
         meetingDate: petition.meeting_date,
         meetingTime: petition.meeting_time,
         applicants: petition.applicants,
-      }) as any
+      }) as React.ReactElement
     )
     await sendManagementEmail({
       formType: petition.form_type,

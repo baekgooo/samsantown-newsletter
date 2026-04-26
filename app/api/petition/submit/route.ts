@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
         meetingDate: meeting_date,
         meetingTime: meeting_time,
         applicants: applicants,
-      }) as any
+      }) as React.ReactElement
     )
 
     await sendManagementEmail({ formType: form_type, petitionDate: petition_date, applicants, pdfBuffer })
