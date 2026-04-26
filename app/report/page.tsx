@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { submitReport } from '@/lib/supabase'
 
 export default function ReportPage() {
   const [name, setName] = useState('')
@@ -17,11 +16,16 @@ export default function ReportPage() {
     setLoading(true)
     setError('')
     try {
-      await submitReport({
-        name: name.trim() || undefined,
-        contact: contact.trim() || undefined,
-        content,
+      const res = await fetch('/api/report', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: name.trim() || undefined,
+          contact: contact.trim() || undefined,
+          content,
+        }),
       })
+      if (!res.ok) throw new Error('서버 오류')
       setDone(true)
     } catch {
       setError('제출 중 오류가 발생했어요. 다시 시도해주세요.')
