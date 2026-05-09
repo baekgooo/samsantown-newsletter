@@ -94,11 +94,11 @@ export default function TiptapEditor({ content, onChange }: Props) {
   function setLink() {
     const url = window.prompt('URL을 입력하세요:')
     if (!url) return
-    editor.chain().focus().setLink({ href: url, target: '_blank' }).run()
+    editor!.chain().focus().setLink({ href: url, target: '_blank' }).run()
   }
 
   function insertToggle() {
-    editor.chain().focus().insertContent(
+    editor!.chain().focus().insertContent(
       '<details><summary>제목을 입력하세요</summary><p>내용을 입력하세요</p></details>'
     ).run()
   }
